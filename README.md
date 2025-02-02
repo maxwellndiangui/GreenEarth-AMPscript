@@ -21,8 +21,6 @@ A personalized thank-you email for "Green Earth", built in Salesforce Marketing 
 * Email Studio
 
 * Content Builder
-
-* Contact Builder
   
 
 ## Project Walkthrough
