@@ -30,24 +30,24 @@ ELSE
 ENDIF
 
 /* LOGIC TO CALCULATE TOTAL DONATION AMOUNT */
-SET @donationTotal = 0
+SET @donationTotal = 0 /* INITIALIZE THE TOTAL DONATION AMOUNT TO ZERO */
 
-SET @rows = LookupRows("Donations","DonorID", @donorID)
-SET @rowCount = rowcount(@rows)
+SET @rows = LookupRows("Donations","DonorID", @donorID) /* RETRIEVE ALL ROWS FROM THE "DONATIONS" DATA EXTENSION WHERE THE DONOR ID MATCHES @donorID */
+SET @rowCount = rowcount(@rows) /* GET THE NUMBER OF ROWS RETURNED FROM THE LOOKUP */
 
-IF  @rowCount > 0 THEN
+IF @rowCount > 0 THEN /* CHECK IF THERE ARE ANY DONATIONS FOUND FOR THE DONOR */
 
-  for @i = 1 to @rowCount do
+  for @i = 1 to @rowCount do /* LOOP THROUGH EACH ROW RETURNED */
 
-    SET @row = row(@rows, @i) /* get row based on counter */
-    SET @DonationAmount = field(@row,"DonationAmount")
-    SET @donationTotal = Add(@donationTotal, @DonationAmount)
-    
+    SET @row = row(@rows, @i) /* GET THE CURRENT ROW BASED ON THE LOOP COUNTER */
+    SET @DonationAmount = field(@row,"DonationAmount") /* EXTRACT THE "DONATIONAMOUNT" VALUE FROM THE CURRENT ROW */
+    SET @donationTotal = Add(@donationTotal, @DonationAmount) /* ADD THE CURRENT DONATION AMOUNT TO THE TOTAL */
+
   next @i 
 
 ELSE
-  RaiseError("No donations found")
-ENDIF
+  RaiseError("No donations found") /* DISPLAY AN ERROR MESSAGE IF NO DONATIONS WERE FOUND */
+ENDIF 
 
 /* LOGIC FOR DYNAMIC DONATION COPY */
 IF @donationTotal < 500 THEN
